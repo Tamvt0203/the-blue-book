@@ -1,7 +1,7 @@
 package main
 
 import (
-	"strings"
+	"strings" 
 )
 
 func poor(args []string) string {
