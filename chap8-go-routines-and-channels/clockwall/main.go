@@ -23,6 +23,7 @@ func parseMapping(args []string) (map[string]string, error) {
 	}
 	return result, err
 }
+
 func main() {
 	mapped_args, err := parseMapping(os.Args[1:])
 	if err != nil {
@@ -44,10 +45,10 @@ func main() {
 			}
 			done = true
 		}
-
 	}
 
 }
+
 func handleConn(conn net.Conn, tz string) {
 	defer conn.Close()
 	reader := bufio.NewReader(conn)
