@@ -28,7 +28,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	var done bool
+
 	for {
 		if !done {
 			for tz, addr := range mapped_args {
