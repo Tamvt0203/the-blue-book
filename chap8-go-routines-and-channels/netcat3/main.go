@@ -24,6 +24,7 @@ func main() {
 	mustCopy(conn, os.Stdin)
 	conn.(*net.TCPConn).CloseWrite()
 	<-done
+	conn.(*net.TCPConn).CloseRead()
 }
 func mustCopy(dest io.Writer, src io.Reader) {
 	if _, err := io.Copy(dest, src); err != nil {
