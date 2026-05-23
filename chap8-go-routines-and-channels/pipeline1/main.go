@@ -10,29 +10,16 @@ func main() {
 		for x := 0; x < 100; x += 1 {
 			naturals <- x
 		}
-		close(naturals)
 	}()
 
 	go func() {
 		for {
-			x, ok := <-naturals
-			if ok {
-				squares <- x * x
-			} else {
-				close(squares)
-				break
-			}
-
+			x := <-naturals
+			squares <- x * x
 		}
 	}()
 
 	for {
-		x, ok := <-squares
-		if ok {
-			fmt.Println(x)
-
-		} else {
-			break
-		}
+		fmt.Println(<-squares)
 	}
 }
