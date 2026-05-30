@@ -50,6 +50,7 @@ func makeThumbnails4(filenames []string) error {
 			// > other go routines will block if try to send to that channel
 			// > never terminate
 			// > Solution1: use buffered channel
+			// > Solution2: use another goroutine to drain the channel
 		}
 	}
 	return nil
