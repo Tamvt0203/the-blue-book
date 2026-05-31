@@ -32,7 +32,10 @@ func main() {
 			if seen[link] != true {
 				seen[link] = true
 				go func(link string) {
-					worklist <- crawl(link)
+					worklist <- crawl(link) // will run into "too many request"
+					// > Solution: make sure there'are no more than n call to links.Extract at any given time
+					// > Implementation1: use a buffered channel of capacity n
+					// > Implementation2: use n long-lived goroutine
 				}(link)
 			}
 		}
