@@ -23,15 +23,13 @@ func crawl(url string) []string {
 
 func main() {
 	worklist := make(chan []string)
-	var n int
-	n++
 	go func() {
 		worklist <- os.Args[1:]
 	}()
 
 	seen := make(map[string]bool)
 	// use n to keep track on the number of work to do
-	for depth := 0; depth < 3; depth++ {
+	for depth := 1; depth <= 4; depth++ {
 		list := <-worklist
 		fmt.Println(list)
 		for _, link := range list {
