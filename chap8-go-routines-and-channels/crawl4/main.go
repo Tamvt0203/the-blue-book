@@ -8,7 +8,7 @@ import (
 	"github.com/Tamvt0203/the-blue-book/chap5-functions/links"
 )
 
-var tokens = make(chan struct{}, 20)
+var tokens = make(chan struct{}, 10)
 
 func crawl(url string) []string {
 	fmt.Println(url)
@@ -21,23 +21,47 @@ func crawl(url string) []string {
 	return list
 }
 
+type Work struct {
+	url   string
+	depth int
+}
+
 func main() {
-	worklist := make(chan []string)
+	maxDepth := 3
+	worklist := make(chan []Work)
+	var n int
+	n++
 	go func() {
-		worklist <- os.Args[1:]
+		var initWork []Work
+		for _, url := range os.Args[1:] {
+			work := Work{
+				url:   url,
+				depth: 0,
+			}
+			initWork = append(initWork, work)
+		}
+		worklist <- initWork
 	}()
 
 	seen := make(map[string]bool)
-	// use n to keep track on the number of work to do
-	for depth := 1; depth <= 4; depth++ {
+	for ; n > 0; n-- {
 		list := <-worklist
-		fmt.Println(list)
-		for _, link := range list {
-			if seen[link] != true {
-				seen[link] = true
-				go func(link string) {
-					worklist <- crawl(link)
-				}(link)
+		for _, work := range list {
+			if seen[work.url] != true && work.depth <= maxDepth {
+				seen[work.url] = true
+				n++
+				go func(link string, currentDepth int) {
+					urls := crawl(link)
+					var result []Work
+					for _, url := range urls {
+						work := Work{
+							url:   url,
+							depth: currentDepth + 1,
+						}
+						result = append(result, work)
+					}
+					worklist <- result
+				}(work.url, work.depth)
 			}
 		}
 	}
