@@ -11,5 +11,5 @@ the number of active echo goroutines. When it falls to zero, clos e the write ha
 connection as described in Exercise 8.3. Verify that your modified netcat3 client from that
 exercise waits for the final echoes of multiple con current shouts, even after the standard input
 has been closed. (reverb2)
-Exercise 8.6: Add depth-limiting to the concurrent crawler. That is, if the user sets -depth=3,
+- Exercise 8.6: Add depth-limiting to the concurrent crawler. That is, if the user sets -depth=3,
 then only URLs reachable by at most three links will be fetched. (crawl4)
