@@ -13,18 +13,27 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	done := make(chan struct{})
+	doneRead := make(chan struct{})
+	doneWrite := make(chan struct{})
 	go func() {
-		if _, err := io.Copy(os.Stdout, conn); err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println("done")
-		done <- struct{}{} //signal the main go routine
+		mustCopy(os.Stdout, conn)
+		conn.(*net.TCPConn).CloseRead()
+		fmt.Println("close read")
+		doneRead <- struct{}{} //signal the main go routine
 	}()
-	mustCopy(conn, os.Stdin)
-	conn.(*net.TCPConn).CloseWrite()
-	<-done
-	conn.(*net.TCPConn).CloseRead()
+	go func() {
+		mustCopy(conn, os.Stdin)
+		conn.(*net.TCPConn).CloseWrite()
+		fmt.Println("close write")
+		doneWrite <- struct{}{}
+	}()
+	select {
+	case <-doneRead:
+		conn.(*net.TCPConn).CloseWrite()
+		fmt.Println("close write")
+	case <-doneWrite:
+		<-doneRead
+	}
 }
 func mustCopy(dest io.Writer, src io.Reader) {
 	if _, err := io.Copy(dest, src); err != nil {

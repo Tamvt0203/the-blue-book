@@ -13,3 +13,4 @@ exercise waits for the final echoes of multiple con current shouts, even after t
 has been closed. (reverb2)
 - Exercise 8.6: Add depth-limiting to the concurrent crawler. That is, if the user sets -depth=3,
 then only URLs reachable by at most three links will be fetched. (crawl4)
+- Exercise 8.8: Use a select statement, add a timeout to the echo server from section 8.3 so that it disconnects any clients that shouts nothing within 10 seconds. (reverb3 & netcat3)
