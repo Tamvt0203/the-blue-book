@@ -15,4 +15,4 @@ has been closed. (reverb2)
 then only URLs reachable by at most three links will be fetched. (crawl4)
 - Exercise 8.8: Use a select statement, add a timeout to the echo server from section 8.3 so that it disconnects any clients that shouts nothing within 10 seconds. (reverb3 & netcat3)
 - Exercise 8.9: Write a version of du that computes and periodically displays separate totals for
-each of the root directories
+each of the root directories (du4)
