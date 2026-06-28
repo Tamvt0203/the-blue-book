@@ -59,7 +59,7 @@ func dirents(dir string) []os.DirEntry {
 func cancelled() bool {
 	select {
 	case <-done:
-		return false
+		return true
 	default:
 		return false
 	}
