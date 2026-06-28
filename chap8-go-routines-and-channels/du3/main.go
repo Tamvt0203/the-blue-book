@@ -15,7 +15,7 @@ func walkDir(dir string, fileSize chan<- int64, wg *sync.WaitGroup) {
 		if entry.IsDir() {
 			subDir := filepath.Join(dir, entry.Name())
 			wg.Add(1)
-			walkDir(subDir, fileSize, wg)
+			go walkDir(subDir, fileSize, wg)
 		} else {
 			entryInfo, _ := entry.Info()
 			fileSize <- entryInfo.Size()

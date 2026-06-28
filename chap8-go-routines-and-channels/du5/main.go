@@ -29,7 +29,7 @@ func walkDir(dir string, fileSize chan<- FileSize, wg *sync.WaitGroup, rootIndex
 		if entry.IsDir() {
 			subDir := filepath.Join(dir, entry.Name())
 			wg.Add(1)
-			walkDir(subDir, fileSize, wg, rootIndex)
+			go walkDir(subDir, fileSize, wg, rootIndex)
 		} else {
 			entryInfo, _ := entry.Info()
 			rootFileSize := FileSize{
